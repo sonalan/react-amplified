@@ -1,0 +1,49 @@
+type Users @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: String
+  password: String
+  first_name: String
+  last_name: String
+  user_status: Int
+  is_deleted: Boolean
+  created_at: AWSDateTime
+  created_by: Int
+  updated_at: AWSDateTime
+  updated_by: Int
+  Modules: [Modules] @connection(keyName: "byUsers", fields: ["id"])
+  Contents: [Contents] @connection(keyName: "byUsers", fields: ["id"])
+}
+
+type Modules @model @auth(rules: [{allow: public}]) @key(name: "byUsers", fields: ["usersID"]) {
+  id: ID!
+  module_name: AWSJSON
+  module_summary: AWSJSON
+  module_cover: String
+  module_icon: String
+  module_image: String
+  module_status: Int
+  is_deleted: Boolean
+  created_at: AWSDateTime
+  created_by: Int
+  updated_at: AWSDateTime
+  updated_by: ID
+  usersID: ID!
+}
+
+type Contents @model @auth(rules: [{allow: public}]) @key(name: "byUsers", fields: ["usersID"]) {
+  id: ID!
+  parent_id: Int
+  module_id: Int
+  content_summary: AWSJSON
+  content_details: AWSJSON
+  content_title: AWSJSON!
+  content_image: String
+  cover_image: String
+  content_status: Int
+  is_deleted: Boolean
+  created_at: AWSDateTime
+  created_by: Int
+  updated_at: AWSDateTime
+  updated_by: Int
+  usersID: ID!
+}
